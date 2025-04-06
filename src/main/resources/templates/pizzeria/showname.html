@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragments/head :: head}"></div>
+    <title>Spring library</title>
+</head>
+<body>
+    <div th:replace="fragments/topbar :: common_topbar"></div>
+    <div th:object="${list}">
+        <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Nome
+                </th>
+                <th>
+                    Descrizione
+                </th>
+                <th>
+                    Foto
+                </th>
+                <th>
+                    Prezzo
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td th:text="*{nome}">
+                </td>
+                <td th:text="*{descrizione}">
+                </td>
+                <td>
+                    <a th:href="@{*{foto}}">Vedi foto</a>
+                </td>
+                <td th:text="€ + *{prezzo}">
+                </td>
+                <td><a th:href="@{|/pizzeria|}">Home</a></td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+</body>
+</html>
