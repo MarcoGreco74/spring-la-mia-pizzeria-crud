@@ -33,3 +33,4 @@ build/
 .vscode/
 hs_err_pid16112.log
 replay_pid16112.log
+src/main/resources/templates/pizzeria/show.html
