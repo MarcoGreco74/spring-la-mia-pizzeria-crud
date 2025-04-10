@@ -6,13 +6,19 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.lessons.spring.spring_la_mia_pizzeria_crud.model.Pizzeria;
 import it.lessons.spring.spring_la_mia_pizzeria_crud.repository.PizzeriaRepository;
+import jakarta.validation.Valid;
+
 
 
 @Controller
@@ -21,16 +27,9 @@ public class PizzeriaController {
 
     @Autowired
     private PizzeriaRepository pizzeriaRepository;
-
-    /*@GetMapping
-    public String index(Model model) {
-        List<Pizzeria> result = pizzeriaRepository.findAll();
-        model.addAttribute("list", result);
-        return "pizzeria/index";
-    }*/
-
+    
     @GetMapping
-    public String index(Model model, @RequestParam(name="keyword", required=false) String nome){
+    public String index(Model model, @RequestParam(value="keyword", required=false) String nome){
         List<Pizzeria> result;
         if(nome != null  && !nome.isBlank()){
             //result = pizzeriaRepository.findByNome(nome);
@@ -53,22 +52,27 @@ public class PizzeriaController {
         return "pizzeria/error_page";
     }
 
-    /*@GetMapping("/show_name")
-   public String showname(Model model, @RequestParam(name="keyword", required=false) String nome) {
-      List<Pizzeria> result;
-      if(nome != null && !nome.isBlank()) {
-         result = pizzeriaRepository.findByNome(nome);
-         //result = pizzeriaRepository.findByNomeContainingIgnoreCase(nome);
-         //model.addAttribute("list", result);
-      } else {
-         //result = pizzeriaRepository.findAll();
-           model.addAttribute("errorMsg", "Pagina non trovata");
-           return "pizzeria/error_page";
-      }
-        model.addAttribute("list", result);
-        return "pizzeria/showname";
-   }*/	
-  //// Problemi ////
-   // come creare una nuova route, diversa da index che riceve i dati del form ? 
-   // perchè la query custom findByNome non funziona ?
+   @GetMapping("/showdescrizione/{descrizione}")
+      public String showdescrizione(@PathVariable("descrizione") String descrizione, Model model){
+        List<Pizzeria> resultDescrizione = pizzeriaRepository.findDescrizioneContainingIgnoreCase(descrizione);
+        model.addAttribute("pizza", resultDescrizione);
+        return "pizzeria/showdescrizione";
+   }
+
+   @GetMapping("/create")
+      public String createPizza(Model model){
+        model.addAttribute("nuovapizza", new Pizzeria());
+        return "pizzeria/create";
+    }
+    
+   @PostMapping("/create")
+   public String storePizza(@Valid @ModelAttribute("nuovapizza") Pizzeria formPizza, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes){
+    if(bindingResult.hasErrors()) {
+        return "pizzeria/create";
+        }
+        pizzeriaRepository.save(formPizza);
+        redirectAttributes.addFlashAttribute("successMessage", "Book created!");
+        return "redirect:/pizzeria";
+   }
+
 }
