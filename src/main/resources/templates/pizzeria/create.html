@@ -6,9 +6,9 @@
 <body>
     <div th:replace="fragments/topbar :: common_topbar"></div>
     <form id="crea_pizza" th:object="${nuovapizza}" th:action="@{/pizzeria/create}" method="post" >
-        <!--<ul>
+        <ul>
             <li th:each="err : ${#fields.allErrors()}" th:text="${err}"></li>
-        </ul>-->
+        </ul>
 
         <div class="row">
             <div class="col">

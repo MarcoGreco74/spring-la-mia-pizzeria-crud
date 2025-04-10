@@ -26,7 +26,7 @@ public class Pizzeria {
     @NotNull
     private String foto;
 
-    @Min(value=4)
+    @Min(value=4, message="Il prezzo deve essere non inferiore ad €4")
     private int prezzo;
 
     public Integer getId() {
