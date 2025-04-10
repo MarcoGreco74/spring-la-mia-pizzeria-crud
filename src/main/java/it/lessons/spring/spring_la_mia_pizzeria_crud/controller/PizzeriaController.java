@@ -71,7 +71,7 @@ public class PizzeriaController {
         return "pizzeria/create";
         }
         pizzeriaRepository.save(formPizza);
-        redirectAttributes.addFlashAttribute("successMessage", "Book created!");
+        redirectAttributes.addFlashAttribute("successMessage", "Pizza creata con successo!");
         return "redirect:/pizzeria";
    }
 
