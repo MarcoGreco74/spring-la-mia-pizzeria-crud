@@ -31,7 +31,7 @@
                 <td th:text="*{descrizione.replace('_', ' ,')}">
                 </td>
                 <td>
-                    <a th:href="@{*{foto}}">Vedi foto</a><!--[[${pizza.foto}]]-->
+                    <a th:href="@{*{foto}}">Vedi foto</a><!--[[${pizza.id}]]-->
                 </td>
                 <td th:text="€ + *{prezzo}">
                 </td>
@@ -39,6 +39,12 @@
             </tr>
         </tbody>
     </table>
+    <div>
+        <a th:href="@{|/pizzeria/edit/${pizza.id}|}" class="btn btn-outline-success">Modifica</a>
+        <form id="delete_pizza" th:action="@{|/pizzeria/delete/${id}|}" method="post" >
+           <button type="submit" class="btn btn-outline-dark" th:href="@{/pizzeria}" onclick="return confirm('Are you sure?')">Cancel</button>
+        </form>
+    </div>
     </div>
 </body>
 </html>
