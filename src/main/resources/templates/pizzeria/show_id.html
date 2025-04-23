@@ -7,6 +7,25 @@
 <body>
     <div th:replace="fragments/topbar :: common_topbar"></div>
     <div th:object="${pizza}">
+
+        <!-- MODAL -->
+        <div class="modal fade" th:attr="id='myModal'" tabindex="-1" th:attrappend="aria-labelledby='myModalLabel'" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h1 class="modal-title fs-5" th:attr="id='myModalLabel'" th:text="${pizza.nome}"></h1>
+                </div>
+                <div class="modal-body">
+                <img th:src="${pizza.foto}" th:style="|width:300px;|" />
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        <!-- fine modal-->
+
         <table class="table table-striped">
         <thead>
             <tr>
@@ -31,7 +50,7 @@
                 <td th:text="*{descrizione.replace('_', ' ,')}">
                 </td>
                 <td>
-                    <a th:href="@{*{foto}}">Vedi foto</a><!--[[${pizza.id}]]-->
+                    <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" th:attr="data-bs-target='#myModal'" >Vedi foto</button> 
                 </td>
                 <td th:text="€ + *{prezzo}">
                 </td>
@@ -39,12 +58,17 @@
             </tr>
         </tbody>
     </table>
-    <div>
-        <a th:href="@{|/pizzeria/edit/${pizza.id}|}" class="btn btn-outline-success">Modifica</a>
-        <form id="delete_pizza" th:action="@{|/pizzeria/delete/${id}|}" method="post" >
-           <button type="submit" class="btn btn-outline-dark" th:href="@{/pizzeria}" onclick="return confirm('Are you sure?')">Cancel</button>
-        </form>
+    <div class="row">
+        <div class="col-2">
+            <a th:href="@{|/pizzeria/edit/${pizza.id}|}" class="btn btn-outline-success">Modifica</a>
+        </div>
+        <div class="col-2">
+            <form id="delete_pizza" th:action="@{|/pizzeria/delete/${id}|}" method="post" >
+              <button type="submit" class="btn btn-outline-dark" th:href="@{/pizzeria}" onclick="return confirm('Sei sicuro?')">Cancel</button>
+            </form>
+        </div>
     </div>
     </div>
+    <div th:replace="fragments/head :: bootstrapScript"></div>
 </body>
 </html>
